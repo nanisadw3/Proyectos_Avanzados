@@ -11,6 +11,7 @@ public class HerenciaGenerica {
     Pareja<Jefe> Director = new Pareja<Jefe>();
     //Pareja<Empleado> nuevo = Director; <- no se puede convertir un jefe a un empleado
     
+    
     Pareja.imprimirEmpleado(Administracion);
     Pareja.imprimirEmpleado(Director);
     }
