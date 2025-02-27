@@ -99,6 +99,17 @@ class Lamina extends JPanel{
 class Marco extends JFrame{
 
     private Lamina lamina_P;
+    JButton btn_t1;
+    JButton btn_t2;
+    JButton btn_t3;
+
+    JButton btn_d1;
+    JButton btn_d2;
+    JButton btn_d3;
+
+    Thread t_1;
+    Thread t_2;
+    Thread t_3;
 
     public Marco(){
        setSize(600,600);
@@ -108,36 +119,66 @@ class Marco extends JFrame{
        add(lamina_P, BorderLayout.CENTER);
 
        JPanel Lamina_B = new JPanel();
+        //Boton para el primer hilo
+        btn_t1 = new JButton("Hilo 1");
+        btn_t1.addActionListener(e -> comienzaElJuego(e));
+        Lamina_B.add(btn_t1);
+        //boton para el segundo hilo
+        btn_t2 = new JButton("Hilo 2");
+        btn_t2.addActionListener(e -> comienzaElJuego(e));
+        Lamina_B.add(btn_t2);
+        //Boton para el tercer hilo
+        btn_t3 = new JButton("Hilo 3");
+        btn_t3.addActionListener(e -> comienzaElJuego(e));
+        Lamina_B.add(btn_t3);
+
+        btn_d1 = new JButton("Detener 1");
+        btn_d2 = new JButton("Detener 2");
+        btn_d3 = new JButton("Detener 3");
 
 
-       ponerBoton(Lamina_B, "Dale", e -> comienzaElJuego());
-       ponerBoton(Lamina_B,"Salir", e -> System.exit(0));
-        ponerBoton(Lamina_B,"Detener", e -> detener());
+        btn_d1.addActionListener(e -> detener(e));
+        btn_d2.addActionListener(e -> detener(e));
+        btn_d3.addActionListener(e -> detener(e));
+
+        Lamina_B.add(btn_d1);
+        Lamina_B.add(btn_d2);
+        Lamina_B.add(btn_d3);
 
        add(Lamina_B, BorderLayout.SOUTH);
     }
 
-    public void ponerBoton(Container c, String nombre, ActionListener accion){
-        JButton boton = new JButton(nombre);
-        boton.addActionListener(accion);
-        c.add(boton);
-    }
-    public void comienzaElJuego(){
+
+    public void comienzaElJuego(ActionEvent e){
         Pelota p = new Pelota();
         lamina_P.add(p);
         //instancia de la classe runnable
         Pelota_Hilos hilo = new Pelota_Hilos(p, lamina_P);
         //Thread hiloThread = new Thread(hilo);//Creamos el hilo
-        t = new Thread(hilo);
-        t.start();
 
+        if (e.getSource() == btn_t1){
+            t_1 = new Thread(hilo);
+            t_1.start();
+        }else if(e.getSource() == btn_t2){
+            t_2 = new Thread(hilo);
+            t_2.start();
+        }else if(e.getSource() == btn_t3){
+            t_3 = new Thread(hilo);
+            t_3.start();
+        }
     }
 
-    public void detener(){
+    public void detener(ActionEvent e){
 
         //t.stop();
-        t.interrupt();
+        if (e.getSource() == btn_d1){
+            t_1.interrupt();
+        }else if (e.getSource() == btn_d2){
+            t_2.interrupt();
+        }else if (e.getSource() == btn_d3){
+            t_3.interrupt();
+        }
+        //t.interrupt();
     }
-    Thread t;
 
 }
